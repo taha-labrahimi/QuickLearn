@@ -1,0 +1,130 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+{% block content %} 
+
+  <main>
+    <section class="p-lg-5 py-7 animate__animated animate__fadeInUp">
+      <div class="container">
+        <div class="row">
+          <div class="col-1 mb-5">
+            <a {% if user.user_type == "teacher" %} href="{% url 'professordashbord' %}"{%else%} href="{% url 'studentdashbord' %}" {% endif %} class="btn btn-primary">Back</a>
+          </div>
+      </div>
+        <div class="row">
+
+          <div class="col-lg-12 col-md-12 col-12 mb-5">
+            <div class="rounded-3 position-relative w-100 d-block overflow-hidden p-0" style="height: 600px;">
+              <iframe class="position-absolute top-0 end-0 start-0 end-0 bottom-0 h-100 w-100"
+                src="{{course.video_url}}"></iframe>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="row">
+          <div class="col-xl-8 col-lg-12 col-md-12 col-12 mb-4 mb-xl-0">
+            <!-- Card -->
+            <div class="card mb-5">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h1 class="fw-semibold mb-2">
+                    {{course.course_title}}
+                  </h1>
+                  <a href="#" data-bs-toggle="tooltip" data-placement="top" title="Add to Bookmarks">
+           
+                  </a>
+                </div>
+                <div class="d-flex mb-5">
+                  <span>
+                    <i class="mdi mdi-star me-n1 text-warning"></i>
+                    <i class="mdi mdi-star me-n1 text-warning"></i>
+                    <i class="mdi mdi-star me-n1 text-warning"></i>
+                    <i class="mdi mdi-star me-n1 text-warning"></i>
+                    <i class="mdi mdi-star-half-full text-warning"></i>
+                    <span class="fw-medium">(140)</span>
+                  </span>
+                  <span class="ms-4 d-none d-md-block">
+                    <li class="list-inline-item">
+                        {% if course.course_level == "Beignners" %}
+                          <svg class="me-1 mt-n1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
+                            <rect x="7" y="5" width="2" height="9" rx="1" fill="#DBD8E9"></rect>
+                            <rect x="11" y="2" width="2" height="12" rx="1" fill="#DBD8E9"></rect>
+                          </svg>
+                          Beginner
+                        {% elif course.course_level == "Intermediate" %}
+                          <svg class="me-1 mt-n1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
+                            <rect x="7" y="5" width="2" height="9" rx="1" fill="#754FFE"></rect>
+                            <rect x="11" y="2" width="2" height="12" rx="1" fill="#DBD8E9"></rect>
+                          </svg>
+                          Intermediate
+                        {% elif course.course_level == "Advance" %}
+                          <svg class="me-1 mt-n1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="8" width="2" height="6" rx="1" fill="#754FFE"></rect>
+                            <rect x="7" y="5" width="2" height="9" rx="1" fill="#754FFE"></rect>
+                            <rect x="11" y="2" width="2" height="12" rx="1" fill="#754FFE"></rect>
+                          </svg>
+                          Advanced
+                        {% endif %}
+                      </li>
+                  </span>
+                  <span class="ms-4 d-none d-md-block">
+                    <i class="bi bi-calendar"></i>
+                    <span>Created : {{course.created_date}}</span>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <img src="{{user.picture.url}}" class="rounded-circle avatar-md" alt="avatar">
+                    <div class="ms-2 lh-1">
+                      <h4 class="mb-1">{{course.professor}}</h4>
+                      <p class="fs-6 mb-0">@{{course.professor}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Nav tabs -->
+              <ul class="nav nav-lt-tab" id="tab" role="tablist">
+                <!-- Nav item -->
+                <li class="nav-item">
+                  <a class="nav-link active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab"
+                    aria-controls="description" aria-selected="false">Description</a>
+                </li>
+              </ul>
+            </div>
+            <!-- Card -->
+            <div class="card rounded-3">
+              <!-- Card body -->
+              <div class="card-body">
+                <div class="tab-content" id="tabContent">
+                  <!-- Tab pane -->
+                  <div class="tab-pane fade show active" id="description" role="tabpanel"
+                    aria-labelledby="description-tab">
+                    <div class="mb-4">
+                      <h3 class="mb-2">Course Descriptions</h3>
+                      <p>
+                        {{course.course_description}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-12 col-md-12 col-12">
+            <div class="card" id="courseAccordion">
+              <div class="card-body">
+                <h5 class="card-title">PDF Preview</h5>
+                <p>{{ course.course_pdf.name }}</p>
+                <div class="pdf-preview">
+                  <embed src="media/{{ course.course_pdf.name }}" type="application/pdf" width="100%" height="400px" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+    </section>
+  </main>
+{% endblock content %} 

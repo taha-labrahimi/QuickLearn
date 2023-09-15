@@ -1,0 +1,185 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+{% block content %} 
+{% if demande_acces %}
+<div class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">Please wait for approval</h4>
+  <p>
+    Your access request is currently pending approval. Once it's approved, you
+    will be granted access.
+  </p>
+</div>
+{% else %}
+
+<main>
+  <section class="pt-5 pb-5 animate__animated animate__fadeInUp">
+    <div class="container">
+      {% include 'parts/Professor-user-info.html' %}
+      <!-- Content -->
+
+      <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+          <!-- Side navabar -->
+          <nav
+            class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav"
+          >
+            <!-- Menu -->
+            <a
+              class="d-xl-none d-lg-none d-md-none text-inherit fw-bold"
+              href="#"
+              >Menu</a
+            >
+            <!-- Button -->
+            <button
+              class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#sidenav"
+              aria-controls="sidenav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="fe fe-menu"></span>
+            </button>
+            <!-- Navbar Collapse -->
+            <div class="collapse navbar-collapse" id="sidenav">
+              <div class="navbar-nav flex-column">
+                <!-- Navbar header -->
+                <span class="navbar-header">Dashboard</span>
+                <ul class="list-unstyled ms-n2 mb-4">
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'professordashbord' %}"
+                      ><i class="fe fe-book nav-icon"></i>My Courses</a
+                    >
+                  </li>
+                 
+                
+                  <li class="nav-item">
+                    <a class="nav-link" href="instructor-students.html"
+                      ><i class="fe fe-user nav-icon"></i>Students</a
+                    >
+                  </li>
+                 
+                  <!-- Nav item -->
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'quizhome' %}"
+                      ><i class="fe fe-help-circle nav-icon"></i>Quiz</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="instructor-quiz-result.html"
+                      ><i class="fe fe-help-circle nav-icon"></i>Quiz Result</a
+                    >
+                  </li>
+                </ul>
+                <!-- Navbar header -->
+                <span class="navbar-header">Account Settings</span>
+                <ul class="list-unstyled ms-n2 mb-0">
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="profile-edit.html"
+                      ><i class="fe fe-settings nav-icon"></i>Edit Profile</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="security.html"
+                      ><i class="fe fe-user nav-icon"></i>Security</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="social-profile.html"
+                      ><i class="fe fe-refresh-cw nav-icon"></i>Social
+                      Profiles</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="notifications.html"
+                      ><i class="fe fe-bell nav-icon"></i>Notifications</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="profile-privacy.html"
+                      ><i class="fe fe-lock nav-icon"></i>Profile Privacy</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'delete_profile_page' %}"
+                      ><i class="fe fe-trash nav-icon"></i>Delete Profile</a
+                    >
+                  </li>
+                  <!-- Nav item -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"
+                      ><i class="fe fe-power nav-icon"></i>Sign Out</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <!-- Card -->
+            <div class="card mb-4">
+              <!-- Card header -->
+              <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="">
+                  <h3 class="mb-0">Quiz</h3>
+                </div>
+                <div>
+                  <a href="{% url 'addquiz' %}" class="btn btn-primary btn-sm">Add New Quiz</a>
+                </div>
+              </div>
+              <!-- Card body -->
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-centered text-nowrap">
+                    <tbody>
+                      {%for quiz in quizzes%}
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- quiz img -->
+                            <a href="{% url 'quizpreview' quiz.id%}"> <img src="{{ quiz.course.cover_image.url }}" alt="course"
+                                class="rounded img-4by3-lg" ></a>
+                            <!-- quiz content -->
+                            <div class="ms-3">
+                              <h4 class="mb-2"><a href="{% url 'quizpreview' quiz.id%}" class="text-inherit">{{quiz.quiz_name}}</a></h4>
+                              <div>
+                                <span><span class="me-2 align-middle"><i class="fe fe-list"></i></span>{{ quiz.question_set.count }}
+                                  Questions</span>
+                                <span class="ms-2"><span class="me-2 align-middle"><i class="fe fe-clock"></i></span>{{quiz.quiz_duration}}
+                                  Minutes</span>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <!-- icon -->
+                          <div>
+                            <a href="#" class="text-inherit"><i class="fe fe-settings"></i></a>
+                            <a href="{% url 'delete_quiz' quiz.id %}" class="ms-2 link-danger"><i class="fe fe-trash-2"></i></a>
+                          </div>
+                        </td>
+                      </tr>
+                      {% endfor %}  
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endif %} 
+{% endblock %}

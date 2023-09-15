@@ -1,0 +1,183 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+	<main>
+	<section class="pt-5 pb-5 animate__animated animate__fadeInUp">
+		<div class="container">
+			{% include 'parts/Student-user-info.html' %}
+	<!-- Content -->
+	<div class="row mt-0 mt-md-4">
+				<div class="col-lg-3 col-md-4 col-12">
+					<!-- Side navbar -->
+					<nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+						<!-- Menu -->
+						<a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+						<!-- Button -->
+						<button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+							data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="fe fe-menu"></span>
+						</button>
+						<!-- Collapse navbar -->
+						<div class="collapse navbar-collapse" id="sidenav">
+							<div class="navbar-nav flex-column">
+								<span class="navbar-header">Subscription</span>
+								<!-- List -->
+								<ul class="list-unstyled ms-n2 mb-4">
+									<!-- Nav item -->
+									<li class="nav-item">
+										<a class="nav-link" href="student-subscriptions.html"><i class="fe fe-calendar nav-icon"></i>My
+											Subscriptions</a>
+									</li>
+									
+									
+									  <!-- Nav item -->
+									  <li class="nav-item  ">
+                                        <a class="nav-link" href="student-quiz.html"><i
+                                                class="fe fe-help-circle nav-icon"></i>My Quiz Attempt</a>
+                                    </li>
+								</ul>
+								<span class="navbar-header">Account Settings</span>
+                <!-- List -->
+								<ul class="list-unstyled ms-n2 mb-0">
+									<!-- Nav item -->
+									<li class="nav-item active">
+										<a class="nav-link" href="profile-edit.html"><i class="fe fe-settings nav-icon"></i>Edit Profile</a>
+									</li>
+									
+									
+									
+									
+									<!-- Nav item -->
+									<li class="nav-item">
+										<a class="nav-link" href="delete-profile.html"><i class="fe fe-trash nav-icon"></i>Delete
+											Profile</a>
+									</li>
+										
+									<!-- Nav item -->
+									<li class="nav-item">
+										<a class="nav-link" href="{% url 'logout' %}"><i class="fe fe-power nav-icon"></i>Sign Out</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<div class="col-lg-9 col-md-8 col-12">
+					<!-- Card -->
+					<div class="card">
+						<!-- Card header -->
+						<div class="card-header">
+							<h3 class="mb-0">Profile Details</h3>
+							<p class="mb-0">
+								You have full control to manage your own account setting.
+							</p>
+						</div>
+						<!-- Card body -->
+						<div class="card-body">
+							<div class="d-lg-flex align-items-center justify-content-between">
+								<div class="d-flex align-items-center mb-4 mb-lg-0">
+									<img src="{{user.picture.url}}" id="img-uploaded" class="avatar-xl rounded-circle" alt="avatar">
+									<div class="ms-3">
+										<h4 class="mb-0">Your avatar</h4>
+										<p class="mb-0">
+											PNG or JPG no bigger than 800px wide and tall.
+										</p>
+									</div>
+								</div>
+								<div>
+									<form method="POST" enctype="multipart/form-data" action="{% url 'studentedit' %}">
+										{% csrf_token %}
+										
+										<input type="file" name="picture" style="display: none;" id="picture-upload" accept="image/png, image/jpeg">
+										<input type="hidden" name="picture_update" value="true"> <!-- Add this hidden input field -->
+										<label for="picture-upload" class="btn btn-outline-secondary btn-sm">Update</label>
+										<button class="btn btn-outline-secondary btn-sm" type="submit" style="display: none;">Save</button>
+									</form>
+							
+									<!-- Delete Profile Picture Button -->
+									
+										<button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+								
+								</div>
+							</div>
+							<hr class="my-5">
+							<div>
+								<h4 class="mb-0">Personal Details</h4>
+								<p class="mb-4">
+									Edit your personal information and address.
+								</p>
+								<!-- Form -->
+								<form class="row gx-3" method="post">
+									{% if messages %}
+									<div id="success-message" class="alert alert-success">
+										{% for message in messages %}
+										<p>{{ message }}</p>
+										{% endfor %}
+									</div>
+									{% endif %}
+									{% csrf_token %}
+									{% if form.errors %}
+										<div class="alert alert-danger">
+											<ul>
+												{% for field, errors in form.errors.items %}
+												{% for error in errors %}
+												<li>{{ field }}: {{ error }}</li>
+												{% endfor %}
+												{% endfor %}
+											</ul>
+										</div>
+										{% endif %}	
+									<!-- First name -->
+									<div class="mb-3 col-12 col-md-6">
+										<label class="form-label" for="fname">First Name</label>
+										<input value="{{user.first_name}}" name="first_name" type="text" id="fname" class="form-control" placeholder="First Name" required>
+									</div>
+									<!-- Last name -->
+									<div class="mb-3 col-12 col-md-6">
+										<label class="form-label" for="lname">Last Name</label>
+										<input value="{{user.last_name}}" name="last_name" type="text" id="lname" class="form-control" placeholder="Last Name" required>
+									</div>
+									<!-- Phone -->
+									<div class="mb-3 col-12 col-md-6">
+										<label class="form-label" for="phone">Phone</label>
+										<input value="{{user.phone}}" name="phone" type="text" id="phone" class="form-control" placeholder="Phone" required>
+									</div>
+									<!-- Address -->
+									<div class="mb-3 col-12 col-md-6">
+										<label class="form-label" for="address">Address</label>
+										<input value="{{user.address}}" name="address" type="text" id="address" class="form-control" placeholder="Address" required>
+									</div>
+									<!-- Country -->
+									<div class="mb-3 col-12 col-md-6">
+										<label class="form-label">Country</label>
+										<input value="{{user.country}}" name="country" type="text" id="country" class="form-control" placeholder="Country" required>
+									</div>
+									<div class="col-12">
+										<!-- Button -->
+										<button class="btn btn-primary" type="submit">
+											Update Profile
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+</html>
+<script>
+	setTimeout(function() {
+        var successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }, 5000);
+</script>
+{% endblock content%}

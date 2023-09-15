@@ -1,0 +1,124 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+	<!-- Page Content -->
+	<main>
+	<section class="py-lg-13 py-8 bg-primary animate__animated animate__fadeInUp">
+		<div class="container">
+			<!-- Page header -->
+			<div class="row align-items-center">
+				<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-12">
+					<div class="text-center mb-6 px-md-8">
+						<h1 class="text-white display-3 fw-bold">
+							Unlock unlimited learning with QuickLearn's flexible pricing plans
+						</h1>
+						<p class="text-white lead mb-4">
+							Choose the perfect plan for your budget and gain access to top-notch courses, expert instructors,
+                             and valuable resources. Start your learning journey today!
+						</p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Content -->
+	<section class="mt-n8 pb-8">
+		<div class="container">
+			<div class="row justify-content-center"> <!-- Added 'justify-content-center' class -->
+				<div class="col-lg-4 col-md-12 col-12">
+					<!-- Card -->
+					<div class="card border-0 mb-3 mb-lg-0 text-center"> <!-- Added 'text-center' class -->
+						<!-- Card body -->
+						<div class="p-5">
+							<img src="{% static 'assets/images/svg/icon_individual.svg' %}" alt="icon" class="mb-5">
+							<div class="mb-5">
+								<h2 class="fw-bold">Individual</h2>
+								<p class="mb-0">
+									Access all
+									<span class="text-dark fw-medium">premium courses, workshops, and mobile apps.</span>
+									Renewed monthly.
+								</p>
+							</div>
+							<div class="d-flex justify-content-center mb-4">
+								<span class="h3 mb-0 fw-bold">DH</span>
+								<div class="toggle-price-content odometer h1" data-price-monthly="39"
+									data-price-yearly="99">
+									500
+								</div>
+								<span class="align-self-end mb-1 ms-2 toggle-price-content" data-price-monthly="/Monthly"
+									data-price-yearly="/Yearly">/Yearly</span>
+							</div>
+							<div class="d-grid">
+								<a href="{% url 'checkout' %}" class="btn btn-primary">Get Your Subscribtion</a>
+							</div>
+						</div>
+						<hr class="m-0">
+						<div class="p-5">
+							<h4 class="fw-bold mb-4">
+								Everything in Starter, plus:
+							</h4>
+							<!-- List -->
+							<ul class="list-unstyled mb-0">
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span>Offline viewing </span>
+								</li>
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span><span class="fw-bold text-dark">Offline </span>projects
+									</span>
+								</li>
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span><span class="fw-bold text-dark">Unlimited </span>storage</span>
+								</li>
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span>Custom domain support </span>
+								</li>
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span>Bulk editing </span>
+								</li>
+								<li class="mb-1">
+									<span class="text-success me-1"><i class="mdi mdi-check-circle-outline fs-4"></i></span>
+									<span>12 / 5 support</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	<!-- FAQ -->
+	<section class="py-lg-10 py-5">
+		<div class="container">
+			
+				<div class="col-md-12 col-12 mt-lg-10 mt-4">
+					<!-- Card-->
+					<div class="card">
+						<!-- Card body -->
+						<div class="card-body">
+							<div class="d-lg-flex justify-content-between align-items-center">
+								<h4 class="mb-0">Have other questions?</h4>
+								<span>Send us a mail via:
+									<a href="#" >QuicKLearn@gmail.com</a></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+</html>
+
+{% endblock content%}

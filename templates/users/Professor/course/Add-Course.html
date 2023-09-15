@@ -1,0 +1,269 @@
+{% extends 'baseUser.html' %} {% block content %}
+<section class="py-4 py-lg-6 bg-primary">
+  <div class="container">
+    <div class="row">
+      <div class="offset-lg-1 col-lg-10 col-md-12 col-12">
+        <div class="d-lg-flex align-items-center justify-content-between">
+          <!-- Content -->
+          <div class="mb-4 mb-lg-0">
+            <h1 class="text-white mb-1">Add New Course</h1>
+            <p class="mb-0 text-white lead">
+              Just fill the form and create your courses.
+            </p>
+          </div>
+          <div>
+            <a href="{%url 'professordashbord' %}" class="btn btn-white"
+              >Back</a
+            >
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pb-12 animate__animated animate__fadeInUp">
+  <div class="container">
+    <div id="courseForm" class="bs-stepper">
+      <div class="row">
+        <div class="offset-lg-1 col-lg-10 col-md-12 col-12">
+          <!-- Stepper Button -->
+          <div class="bs-stepper-header shadow-sm" role="tablist">
+            <div class="step" data-target="#test-l-1">
+              <button
+                type="button"
+                class="step-trigger"
+                role="tab"
+                id="courseFormtrigger1"
+                aria-controls="test-l-1"
+              >
+                <span class="bs-stepper-circle">1</span>
+                <span class="bs-stepper-label">Basic Information</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-l-2">
+              <button
+                type="button"
+                class="step-trigger"
+                role="tab"
+                id="courseFormtrigger2"
+                aria-controls="test-l-2"
+              >
+                <span class="bs-stepper-circle">2</span>
+                <span class="bs-stepper-label">Courses Media</span>
+              </button>
+            </div>
+          </div>
+          <!-- Stepper content -->
+          <div class="bs-stepper-content mt-5">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% if form.errors %}
+              <div class="alert alert-danger">
+                  <strong>Error:</strong>
+                  <ul>
+                      {% for field in form %}
+                          {% for error in field.errors %}
+                              <li>{{ field.label }}: {{ error }}</li>
+                          {% endfor %}
+                      {% endfor %}
+                  </ul>
+              </div>
+              {% endif %}
+              <!-- Content one -->
+              <div
+                id="test-l-1"
+                role="tabpanel"
+                class="bs-stepper-pane fade"
+                aria-labelledby="courseFormtrigger1"
+              >
+                <!-- Card -->
+                <div class="card mb-3">
+                  <div class="card-header border-bottom px-4 py-3">
+                    <h4 class="mb-0">Basic Information</h4>
+                  </div>
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label for="courseTitle" class="form-label"
+                        >Course Title</label
+                      >
+                      <input
+                        name="course_title"
+                        id="courseTitle"
+                        class="form-control"
+                        type="text"
+                        placeholder="Course Title"
+                      />
+                      <small>Write a 60 character course title.</small>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">Courses level</label>
+                      <select
+                        class="selectpicker"
+                        name="course_level"
+                        data-width="100%"
+                      >
+                        <option value="">Select level</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="Beignners">Beignners</option>
+                        <option value="Advance">Advance</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Course Duration</label>
+                      <div class="input-group">
+                        <input name="duration_hours" class="form-control" type="number" min="0" placeholder="Hours" />
+                        <input name="duration_minutes" class="form-control" type="number" min="0" max="59" placeholder="Minutes" />
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Course Description</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="A brief summary of your courses."
+                        name="course_description"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Content two -->
+              <div
+                id="test-l-2"
+                role="tabpanel"
+                class="bs-stepper-pane fade"
+                aria-labelledby="courseFormtrigger2"
+              >
+                <!-- Card -->
+                <div class="card mb-3 border-0">
+                  <div class="card-header border-bottom px-4 py-3">
+                    <h4 class="mb-0">Courses Media</h4>
+                  </div>
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div
+                      id="pdfPreviewContainer"
+                      class="custom-file-container mb-4"
+                      data-upload-id="coursePDF"
+                    >
+                      <label class="form-label">Upload PDF</label>
+                      <label class="custom-file">
+                        <input
+                          type="file"
+                          class="custom-file-input"
+                          accept=".pdf"
+                          id="coursePDF"
+                          name="course_pdf"
+                        />
+                        <span class="custom-file-control"></span>
+                      </label>
+                      <small class="form-text text-muted"
+                        >Upload a PDF file for your course.</small
+                      >
+                    </div>
+                    <div id="pdfPreview"></div>
+                    <div>
+                      <label class="form-label">Video url</label>
+
+                      <input
+                        type="url"
+                        class="form-control"
+                        placeholder="Video URL"
+                        id="videoURLInput"
+                        name="video_url"
+                      />
+                    </div>
+                    
+                    
+                    <div
+                      class="mt-3 position-relative rounded py-14 border-white border rounded bg-cover"
+                    >
+                      <div id="videoContainer"></div>
+                    </div>
+                    <div class="mt-3">
+            
+                      <div id="coverImageContainer">
+                        <label class="form-label">Cover Image</label>
+                        <input type="file" class="form-control" id="coverImage" name="cover_image" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <div class="d-flex justify-content-between mb-22">
+                  <button type="submit" class="btn btn-danger mt-5">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  
+  var coursePDFInput = document.getElementById("coursePDF");
+  var pdfPreviewContainer = document.getElementById("pdfPreviewContainer");
+  var pdfPreview = document.getElementById("pdfPreview");
+  var changePDFButton = document.getElementById("changePDFButton");
+  var videoURLInput = document.getElementById("videoURLInput");
+  var videoLink = document.getElementById("videoLink");
+  var videoContainer = document.getElementById("videoContainer");
+
+  coursePDFInput.addEventListener("change", function (e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+      var pdfUrl = event.target.result;
+
+      // Display the PDF preview
+      pdfPreview.innerHTML =
+        '<embed src="' +
+        pdfUrl +
+        '" width="100%" height="600px" type="application/pdf">';
+      changePDFButton.style.display = "inline-block";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  videoURLInput.addEventListener("input", function () {
+    var videoURL = videoURLInput.value;
+    var youtubeVideoId = extractYouTubeVideoId(videoURL);
+
+    if (youtubeVideoId) {
+      // Display the YouTube video
+      videoContainer.innerHTML =
+        '<iframe width="100%" height="400" src="https://www.youtube.com/embed/' +
+        youtubeVideoId +
+        '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+      videoLink.href = "https://www.youtube.com/watch?v=" + youtubeVideoId;
+      videoLink.style.display = "block";
+    } else {
+      // Hide the YouTube video
+      videoContainer.innerHTML = "";
+      videoLink.style.display = "none";
+    }
+  });
+
+  function extractYouTubeVideoId(url) {
+    var videoId = "";
+    var regEx =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
+    var match = url.match(regEx);
+
+    if (match && match[2].length === 11) {
+      videoId = match[2];
+    }
+
+    return videoId;
+  }
+</script>
+{% endblock content %}

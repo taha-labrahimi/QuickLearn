@@ -1,0 +1,231 @@
+{% extends 'baseUser.html' %} {% block content %}
+<section class="py-4 py-lg-6 bg-primary">
+  <div class="container">
+    <div class="row">
+      <div class="offset-lg-1 col-lg-10 col-md-12 col-12">
+        <div class="d-lg-flex align-items-center justify-content-between">
+          <!-- Content -->
+          <div class="mb-4 mb-lg-0">
+            <h1 class="text-white mb-1">Add New Quiz</h1>
+            <p class="mb-0 text-white lead">
+              Just fill the form and create your Quiz.
+            </p>
+          </div>
+          <div>
+            <a href="{%url 'quizhome' %}" class="btn btn-white"
+              >Back</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pb-12 animate__animated animate__fadeInUp">
+  <div class="container">
+    <div id="courseForm" class="bs-stepper">
+      <div class="row">
+        <div class="offset-lg-1 col-lg-10 col-md-12 col-12">
+          <!-- Stepper Button -->
+          <div class="bs-stepper-header shadow-sm" role="tablist">
+            <div class="step" data-target="#test-l-1">
+              <button
+                type="button"
+                class="step-trigger"
+                role="tab"
+                id="courseFormtrigger1"
+                aria-controls="test-l-1"
+              >
+                <span class="bs-stepper-circle">1</span>
+                <span class="bs-stepper-label">Basic Information</span>
+              </button>
+            </div>
+            <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-l-2">
+              <button
+                type="button"
+                class="step-trigger"
+                role="tab"
+                id="courseFormtrigger2"
+                aria-controls="test-l-2"
+              >
+                <span class="bs-stepper-circle">2</span>
+                <span class="bs-stepper-label">Quiz Questions</span>
+              </button>
+            </div>
+          </div>
+          <!-- Stepper content -->
+          <div class="bs-stepper-content mt-5">
+            <form method="post" action="{% url 'addquiz' %}"  enctype="multipart/form-data">
+              {% csrf_token %}
+              {% for field in form %}
+              <div class="form-group">
+                {% if field.errors %}
+                {{ field.label_tag }}
+                  <div class="alert alert-danger">
+                    {% for error in field.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            
+              <!-- Content one -->
+              <div
+                id="test-l-1"
+                role="tabpanel"
+                class="bs-stepper-pane fade"
+                aria-labelledby="courseFormtrigger1"
+              >
+                <!-- Card -->
+                <div class="card mb-3">
+                  <div class="card-header border-bottom px-4 py-3">
+                    <h4 class="mb-0">Basic Information</h4>
+                  </div>
+                  <!-- Card body -->
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label for="courseTitle" class="form-label">Course</label>
+                      <select
+                      class="selectpicker"
+                      name="course"
+                      data-width="100%"
+                    >
+                      <option value="">Select Course</option>
+                      {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.course_title }}</option>
+                          {% endfor %}
+                    </select>
+
+                    </div>
+                    <div class="mb-3">  
+                      <label for="courseTitle" class="form-label"
+                        >Quiz  Name</label
+                      >
+                      <input
+                        name="quiz_name"
+                        id="courseTitle"
+                        class="form-control"
+                        type="text"
+                        placeholder="Quiz Name"
+                      />                 
+                    </div>
+                    <div class="mb-3">
+                      <label for="quizDuration" class="form-label">Quiz Duration</label>
+                      <div class="input-group">
+                        <input name="quiz_duration" class="form-control" type="number" min="0" placeholder="Minutes" />
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+             
+
+              <!-- Content two -->
+              <div id="test-l-2" role="tabpanel" class="bs-stepper-pane fade" aria-labelledby="courseFormtrigger2">
+                <!-- Card -->
+                <div class="mb-3">
+                    <label class="form-label">Questions</label>
+                    <div id="questionsContainer">
+                        
+                    </div>
+                    <input type="hidden" id="questionCount" name="question_count" value="0">
+                    <button type="button" class="btn btn-primary mt-2" onclick="addQuestion()">Add Question</button>
+                </div>
+                <!-- Button -->
+                <div class="d-flex justify-content-between mb-22">
+                    <button type="submit" class="btn btn-danger mt-5">Submit</button>
+                </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  var questionCountInput = document.getElementById("questionCount");
+  var questionsContainer = document.getElementById("questionsContainer");
+
+  function addQuestion() {
+    var questionCount = parseInt(questionCountInput.value) + 1;
+    questionCountInput.value = questionCount;
+
+    var questionDiv = document.createElement("div");
+    questionDiv.className = "mb-3 card";
+    questionDiv.style.backgroundColor = "#FFFFFF";
+    questionDiv.style.border = "1px solid #754ffe";
+
+    var cardBodyDiv = document.createElement("div");
+    cardBodyDiv.className = "card-body";
+
+    var questionLabel = document.createElement("label");
+    questionLabel.className = "form-label";
+    questionLabel.innerText = "Question " + questionCount;
+
+    var questionInput = document.createElement("input");
+    questionInput.className = "form-control mb-3"; // Added class name for spacing
+    questionInput.name = "questions-" + questionCount;
+    questionInput.placeholder = "Question";
+
+    var responseContainer = document.createElement("div");
+
+    // Create response inputs
+    for (var i = 1; i <= 4; i++) {
+      var responseDiv = document.createElement("div");
+      responseDiv.className = "mb-3 form-check";
+
+      var correctAnswerInput = document.createElement("input");
+      correctAnswerInput.type = "checkbox";
+      correctAnswerInput.className = "form-check-input";
+      correctAnswerInput.name = "correct-" + questionCount + "-" + i;  // Updated name attribute
+      correctAnswerInput.value = i;
+
+      var answerInput = document.createElement("input");
+      answerInput.type = "text";
+      answerInput.className = "form-control";
+      answerInput.name = "answers-" + questionCount + "-" + i;
+      answerInput.placeholder = "Write the answer";
+
+      var answerLabel = document.createElement("label");
+      answerLabel.className = "form-check-label";
+      answerLabel.innerText = "Correct answer ";
+
+      responseDiv.appendChild(correctAnswerInput);
+      responseDiv.appendChild(answerLabel);
+      responseDiv.appendChild(answerInput);
+
+      responseContainer.appendChild(responseDiv);
+    }
+
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger";
+    deleteButton.innerText = "Delete";
+    deleteButton.addEventListener("click", function () {
+      questionDiv.remove();
+      questionCountInput.value = parseInt(questionCountInput.value) - 1;
+    });
+
+    cardBodyDiv.appendChild(questionLabel);
+    cardBodyDiv.appendChild(questionInput);
+    cardBodyDiv.appendChild(responseContainer);
+    cardBodyDiv.appendChild(deleteButton);
+    questionDiv.appendChild(cardBodyDiv);
+
+    questionsContainer.appendChild(questionDiv);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

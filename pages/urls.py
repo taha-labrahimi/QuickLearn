@@ -1,0 +1,30 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('',views.index,name="index"),
+    path('about/',views.about , name="about"),
+    path('contact/',views.contact , name="contact"),
+    path('pricing/',views.pricing , name="pricing"),
+    path('studentdashbord/',views.studentdashbord , name="studentdashbord"),
+    path('professordashbord/',views.professordashbord , name="professordashbord"),
+    path('addcourse/',views.addcourse , name="addcourse"),
+    path('deletecourse/<course_id>',views.delete_course,name='delete_course'),
+    path('updatecourse/<course_id>',views.update_course,name='update_course'),
+    path('coursepreview/<course_id>',views.coursepreview,name="coursepreview"),
+    path('quizhome/',views.quizhome,name="quizhome"),
+    path('addquiz/',views.addquiz,name="addquiz"),
+    path('quizpreview/<quiz_id>',views.quizpreview,name="quizpreview"),
+    path('deletequiz/<quiz_id>',views.delete_quiz,name='delete_quiz'),
+    path('deletequestion/<question_id>',views.delete_question,name='delete_question'),  
+    path('deleteprofilepage/',views.delete_profile_page,name='delete_profile_page'),
+     path('deleteprofile/',views.delete_profile,name='delete_profile'),  
+    path('prfoessordashbord/professoredit/',views.professoredit , name="professoredit"),
+    path('studentdashbord/studentedit/',views.studentedit , name="studentedit"),
+    path('studentcoursepreview/',views.studentcoursepreview,name="studentcoursepreview"),
+    path('pricing/checkout/',views.checkout,name="checkout"),
+    path('pricing/checkout/make_payment',views.make_payment,name="make_payment"),
+    path('signin/',views.signin , name="signin"),
+    path('signup/',views.signup , name="signup"),
+    path('logout/', views.logout_view, name='logout'),
+]
